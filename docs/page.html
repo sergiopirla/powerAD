@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>powerAD: Power Analysis for Affect Dynamics Studies</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">powerAD: Power Analysis for Affect Dynamics Studies</h1>
+
+
+
+<p>This vignette presents the main functions included in the <code>powerAD</code> package. Based on the empirical power estimations and results described in Pirla, Taquet and Quoidbach (2021), <code>powerAD</code> provides a set of user-ready tools for those interested in running studies in the field of affect dynamics.</p>
+<p>The vignette follows this structure:</p>
+<ol style="list-style-type: decimal">
+<li>Installing and loading <code>powerAD</code></li>
+<li>Estimating the minimal sufficient sample (both number of individuals and number of observations per individual).</li>
+<li>Estimating statistical power for a given sampling approach.</li>
+<li>Analyzing feasible effect sizes for an affect dynamics study.</li>
+</ol>
+<hr />
+<div id="installing-and-loading-powerad" class="section level2">
+<h2>1 - Installing and loading <code>powerAD</code></h2>
+<p>As this package is mantained in a Github repository, you will need to use the function <code>install_github()</code> from the <code>devtools</code> package. To install and load <code>powerAD</code>, introduce the following commands in your console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;sergiopirla/powerAD&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(powerAD)</a></code></pre></div>
+<hr />
+</div>
+<div id="required-sample-in-affect-dynamics-studies" class="section level2">
+<h2>2 - Required sample in affect dynamics studies</h2>
+<p>The main functions of <code>powerAD</code> are designed to guide practitioners and researchers in conducting well-powered affect dynamics studies. The main function to this end is <code>samplingAD()</code>. This function takes the following imputs:</p>
+<ul>
+<li><strong>power:</strong> Minimum required power. Input as a number from 0.01 to 0.99. Defaults to 0.8 (80% power).</li>
+<li><strong>metric:</strong> Affect dynamic measure of interest. Must be a single character from “Average”, “Rel.SD”, “SD”, “RMSSD”, “TKEO”, “PAC” or “Autocorrelation”.</li>
+<li><strong>r:</strong> Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.</li>
+<li><strong>p.value:</strong> Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.</li>
+</ul>
+<p>Given these imputs, <code>samplingAD()</code> estimates the set of feasible combinations of number of individuals and affect reports per individuals needed to detect a relationship of size “r” in a given affect metric, with a specific power and alpha level.</p>
+<p>For example, if interested in obtaining the set of feasible sampling approaches to conduct an study with 80% power, an expected effect size of r=0.3, setting an alpha of 0.05 and interested in the Teager-Kaiser Energy Operator, we would run the following code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(powerAD)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">samplingAD</span>(<span class="dt">power=</span><span class="fl">0.8</span>, <span class="dt">metric =</span> <span class="st">&quot;TKEO&quot;</span>, <span class="dt">r=</span><span class="fl">0.3</span>, <span class="dt">p.value =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<pre><code>## 
+## Feasible combinations of individuals and samples per individual to obtain a power of 80 %  to detect an effect of size r= 0.3 using an alpha of 0.05 when interested in the Teager-Kaiser Energy Operator (TKEO) of affect. 
+## 
+## Feasible sampling combinations:
+## 
+##   Power Individuals Samples
+##  0.8460        1280       5
+##  0.9720         640      10
+##  0.9264         320      15
+##  0.8692         160      30
+## 
+##  -----------------------</code></pre>
+<p>Furthermore, you might be interested in visually represnting this set of feasible sampling approaches. You can use the function <code>plot_samplingAD()</code> to do so. Note this function has the same arguments as <code>samplingAD()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">plot_samplingAD</span>(<span class="dt">power=</span><span class="fl">0.8</span>, <span class="dt">metric =</span> <span class="st">&quot;TKEO&quot;</span>, <span class="dt">r=</span><span class="fl">0.3</span>, <span class="dt">p.value =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<hr />
+</div>
+<div id="statistical-power-for-a-given-sampling-approach." class="section level2">
+<h2>3 - Statistical power for a given sampling approach.</h2>
+<p>Now that you have an idea of the feasible sampling combinations that you can use for your study, you might be interested in obtaining a statistical power estimation for a specific sampling approach. Furthermore, you might want to explore the power of different sampling approaches depending on the relative costs associated with recruiting more people or sampling those individuals for a longer period of time. In order to do so, you can use the function <code>powerAD()</code>. This function takes the following arguments:</p>
+<ul>
+<li><strong>individuals:</strong> Number of individuals sampled.</li>
+<li><strong>samples:</strong> Number of affect reports per individual.</li>
+<li><strong>metric:</strong> Affect dynamic measure of interest. Must be a single character from “Average”, “Rel.SD”, “SD”, “RMSSD”, “TKEO”, “PAC” or “Autocorrelation”.</li>
+<li><strong>r:</strong> Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.</li>
+<li><strong>p.value:</strong> Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.</li>
+</ul>
+<p>In the sampling estimations of part 2, we have seen that sampling 640 individuals 10 times, yielded sufficient power given our alpha level, effect size, and metric of interest. However, such sampling approach might be too conservative as the estimated power for this sampling combination is 97% (intead of our 80% minimum required power). Using <code>powerAD()</code> we can try with different sampling specifications:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">powerAD</span>(<span class="dt">individuals=</span><span class="dv">400</span>, <span class="dt">samples =</span> <span class="dv">11</span>, <span class="dt">metric =</span> <span class="st">&quot;TKEO&quot;</span>, <span class="dt">r=</span><span class="fl">0.3</span>, <span class="dt">p.value =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<pre><code>## 
+## Power to detect an effect of size r= 0.3 using an alpha of 0.05 when interested in the Teager-Kaiser Energy Operator (TKEO) of affect. 
+## 
+## Empirical Power (closest sampling approaches):
+## 
+##   Power Individuals Samples
+##  0.7812         320      10
+##  0.9720         640      10
+##  0.9264         320      15
+##  0.9976         640      15
+## 
+##  -----------------------
+## Linear aproximation of Power under the sampling approach specified ( 400 individuals and 11 observations per individual):
+## Aprox. Power= 83.103 %</code></pre>
+<p>As you can see above, the function outputs the points in the power estimations of Pirla, Taquet and Quoidbach (2021) that are closer to the function’s imputs. In addittion, the function uses these close points to provide a linear aproximation to the power of our sampling approach of interest. The results show that given our study setup (alpha level, effect siz of interest and metric of interest), sampling 400 individuals a total of 11 times would suffice to obtain a power of 80%.</p>
+<hr />
+</div>
+<div id="feasible-effect-sizes" class="section level2">
+<h2>4 - Feasible effect sizes:</h2>
+<p>So far, we have been concerned with power and sampling approaches, taking the other imputs as fixed. While most researchers will rely on previous literature to define an expected effect size, we provide a companion table with some effect sizes to be used as reference. To access such data on effect sizes, you just have to type <code>effect.sizes</code> in your R console. If you want to see the benchmark effect sizes for a specific affect dynamic measure (e.g. TKEO), you can enter the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">effect.sizes[, <span class="kw">c</span>(<span class="st">&quot;Outcome&quot;</span>, <span class="st">&quot;TKEO&quot;</span>)]</a></code></pre></div>
+<pre><code>##                 Outcome        TKEO
+## 1                   Age -0.24695305
+## 2                Gender -0.08099905
+## 3       Average Meaning -0.19435538
+## 4            SD Meaning  0.45159116
+## 5        Rel.SD Meaning  0.37263128
+## 6         RMSSD Meaning  0.44826577
+## 7          TKEO Meaning  0.28387417
+## 8           PAC Meaning  0.38268047
+## 9          AUTO Meaning -0.05753214
+## 10 Average Satisfaction -0.14425015
+## 11      SD Satisfaction  0.42777312
+## 12  Rel.SD Satisfaction  0.32854741
+## 13   RMSSD Satisfaction  0.43058491
+## 14    TKEO Satisfaction  0.24140383
+## 15     PAC Satisfaction  0.36371948
+## 16    AUTO Satisfaction -0.06120916
+## 17                Sleep  0.02261081
+## 18                Alone  0.01545217
+## 19               Family  0.00433623
+## 20              Friends  0.09124939
+## 21                 Work -0.03097502
+## 22               Sports -0.01705431</code></pre>
+<p>This table presents the effect size (Pearson’s r) between the affect TKEO and demographic variables (rows 1 and 2), static and dynamic measures of meaning in life (3-9), static and dynamic measures of life satisfaction (10-16) and proportion of time spent with different groups of people or engaging in some activities (17-22).</p>
+<hr />
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
