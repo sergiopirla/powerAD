@@ -1,0 +1,108 @@
+---
+title: "powerAD: Power Analysis for Affect Dynamics Studies"
+output: rmarkdown::html_vignette
+fig_width: 10 
+fig_height: 6 
+vignette: >
+  %\VignetteIndexEntry{powerADdemo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette presents the main functions included in the `powerAD` package. Based on the empirical power estimations and results described in Pirla, Taquet and Quoidbach (2021), `powerAD` provides a set of user-ready tools for those interested in running studies in the field of affect dynamics. 
+
+The vignette follows this structure: 
+
+1. Installing and loading `powerAD`
+2. Estimating the minimal sufficient sample (both number of individuals and number of observations per individual).
+3. Estimating statistical power for a given sampling approach.
+4. Analyzing feasible effect sizes for an affect dynamics study.
+
+***
+
+## 1 - Installing and loading `powerAD`
+
+As this package is mantained in a Github repository, you will need to use the function `install_github()` from the `devtools` package. To install and load `powerAD`, introduce the following commands in your console:
+
+```{r, eval=FALSE}
+install.packages("devtools")
+devtools::install_github('powerAD','sergiopirla')
+library(powerAD)
+```
+
+***
+
+
+## 2 - Required sample in affect dynamics studies
+
+The main functions of `powerAD` are designed to guide practitioners and researchers in conducting well-powered affect dynamics studies. The main function to this end is `samplingAD()`. This function takes the following imputs: 
+
+* **power:** Minimum required power. Input as a number from 0.01 to 0.99. Defaults to 0.8 (80\% power).
+* **metric:** Affect dynamic measure of interest. Must be a single character from "Average", "Rel.SD", "SD", "RMSSD", "TKEO", "PAC" or "Autocorrelation".
+* **r:** Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.
+* **p.value:** Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
+
+Given these imputs, `samplingAD()` estimates the set of feasible combinations of number of individuals and affect reports per individuals needed to detect a relationship of size "r" in a given affect metric, with a specific power and alpha level. 
+
+For example, if interested in obtaining the set of feasible sampling approaches to conduct an study with 80% power, an expected effect size of r=0.3, setting an alpha of 0.05 and interested in the Teager-Kaiser Energy Operator, we would run the following code: 
+
+```{r, eval=T}
+library(powerAD)
+samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
+```
+
+Furthermore, you might be interested in visually represnting this set of feasible sampling approaches. You can use the function `plot_samplingAD()` to do so. Note this function has the same arguments as `samplingAD()`:
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=7, fig.height=5)
+```
+```{r}
+plot_samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
+```
+
+
+***
+
+
+## 3 - Statistical power for a given sampling approach.
+
+Now that you have an idea of the feasible sampling combinations that you can use for your study, you might be interested in obtaining a statistical power estimation for a specific sampling approach. Furthermore, you might want to explore the power of different sampling approaches depending on the relative costs associated with recruiting more people or sampling those individuals for a longer period of time. In order to do so, you can use the function `powerAD()`. This function takes the following arguments: 
+
+* **individuals:** Number of individuals sampled.
+* **samples:** Number of affect reports per individual.
+* **metric:** Affect dynamic measure of interest. Must be a single character from "Average", "Rel.SD", "SD", "RMSSD", "TKEO", "PAC" or "Autocorrelation".
+* **r:** Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.
+* **p.value:** Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
+
+In the sampling estimations of part 2, we have seen that sampling 640 individuals 10 times, yielded sufficient power given our alpha level,  effect size, and metric of interest. However, such sampling approach might be too conservative as the estimated power for this sampling combination is 97% (intead of our 80% minimum required power). Using `powerAD()` we can try with different sampling specifications:
+
+```{r}
+powerAD(individuals=400, samples = 11, metric = "TKEO", r=0.3, p.value = 0.05)
+```
+
+As you can see above, the function outputs the points in the power estimations of Pirla, Taquet and Quoidbach (2021) that are closer to the function's imputs. In addittion, the function uses these close points to provide a linear aproximation to the power of our sampling approach of interest. The results show that given our study setup (alpha level, effect siz of interest and metric of interest), sampling 400 individuals a total of 11 times would suffice to obtain a power of 80%. 
+
+
+***
+
+
+## 4 - Feasible effect sizes:
+
+So far, we have been concerned with power and sampling approaches, taking the other imputs as fixed. While most researchers will rely on previous literature to define an expected effect size, we provide a companion table with some effect sizes to be used as reference. To access such data on effect sizes, you just have to type `effect.sizes` in your R console. If you want to see the benchmark effect sizes for a specific affect dynamic measure (e.g. TKEO), you can enter the following command: 
+
+```{r}
+effect.sizes[, c("Outcome", "TKEO")]
+```
+
+This table presents the effect size (Pearson's r) between the affect TKEO and demographic variables (rows 1 and 2), static and dynamic measures of meaning in life (3-9), static and dynamic measures of life satisfaction (10-16) and proportion of time spent with different groups of people or engaging in some activities (17-22).
+
+
+
+***
+
+
+
+
+
+
+
+
