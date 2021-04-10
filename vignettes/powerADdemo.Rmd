@@ -26,7 +26,7 @@ As this package is mantained in a Github repository, you will need to use the fu
 
 ```{r, eval=FALSE}
 install.packages("devtools")
-devtools::install_github('powerAD','sergiopirla')
+devtools::install_github("sergiopirla/powerAD")
 library(powerAD)
 ```
 
