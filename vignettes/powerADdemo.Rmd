@@ -54,10 +54,13 @@ samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
 Furthermore, you might be interested in visually represnting this set of feasible sampling approaches. You can use the function `plot_samplingAD()` to do so. Note this function has the same arguments as `samplingAD()`:
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(fig.width=7, fig.height=5)
+library(ggplot2)
 ```
 
-```{r}
+```{r echo=TRUE, paged.print=FALSE, dev='jpeg'}
+
 plot_samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
+
 ```
 
 
