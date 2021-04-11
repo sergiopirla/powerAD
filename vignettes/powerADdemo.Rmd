@@ -55,6 +55,7 @@ Furthermore, you might be interested in visually represnting this set of feasibl
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(fig.width=7, fig.height=5)
 ```
+
 ```{r}
 plot_samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
 ```
