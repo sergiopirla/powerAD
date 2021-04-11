@@ -8,8 +8,8 @@ This R-package is designed to run power analises for affect dynamics studies. Th
 You can read the full paper [here.](https://www.google.com)
 
 
-You can learn more about the functions included in this package, and how to estimate power and sample size (both participants and affect reports per participant) [here.](https://sergiopirla.github.io/powerAD/articles/powerAD.html)
+You can learn how to install `powerAD` and how to estimate power and required sample size (both participants and affect reports per participant) [in here.](https://sergiopirla.github.io/powerAD/articles/powerAD.html)
 
-We also programmed a Shiny app that runs the main functions included in this package. [Shiny App](https://www.google.com)
+We also programmed a Shiny app that runs the main functions included in this package. [Shiny App](https://sergiopirla.shinyapps.io/powerADapp/)
 
 ***
