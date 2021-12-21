@@ -46,23 +46,31 @@ powerAD<-function(individuals, samples, metric, r, p.value=0.05){
   if(is.nan(power.gain.ind)){power.gain.ind<-0}
   aprox.Power<- (selected$Power[selected$Individuals==min(selected$Individuals) & selected$Samples==min(selected$Samples)] + power.gain.ind + power.gain.sample )
 
+  aprox.Power<-round(aprox.Power, digits = 4)
+  selected$Power<-round(selected$Power, digits = 2)
   #Print Output:
-  if(metric=="Average"){metric.me<-"trait affect."}
-  if(metric=="Rel.SD"){metric.me<-"the Relative Standard Deviation (Rel. SD) in affect."}
-  if(metric=="SD"){metric.me<-"the Standard Deviation (SD) in affect."}
-  if(metric=="RMSSD"){metric.me<-"the Root Mean Square of Successive Differences (RMSSD) in affect."}
-  if(metric=="TKEO"){metric.me<-"the Teager-Kaiser Energy Operator (TKEO) of affect."}
-  if(metric=="PAC"){metric.me<-"the Probability of Acute Change (PAC) in affect."}
-  if(metric=="Autocorrelation"){metric.me<-"the Autocorrelation coefficient of affect."}
+  if(metric=="Average"){metric.me<-"trait affect"}
+  if(metric=="Rel.SD"){metric.me<-"the Relative Standard Deviation (Rel. SD) in affect"}
+  if(metric=="SD"){metric.me<-"the Standard Deviation (SD) in affect"}
+  if(metric=="RMSSD"){metric.me<-"the Root Mean Square of Successive Differences (RMSSD) in affect"}
+  if(metric=="TKEO"){metric.me<-"the Teager-Kaiser Energy Operator (TKEO) of affect"}
+  if(metric=="PAC"){metric.me<-"the Probability of Acute Change (PAC) in affect"}
+  if(metric=="Autocorrelation"){metric.me<-"the Autocorrelation coefficient of affect"}
 
-
-  cat("\nPower to detect an effect of size r=", r, "using an alpha of", p.value,
-      "when interested in",metric.me , "\n\nEmpirical Power (closest sampling approaches):\n")
+  cat("\nPower to detect a Pearson correlation of size r=", r,"between", metric.me,"and a given variable using a two-tailed t-test and an alpha of", p.value,".",
+       "\n\nPower is estimated through a linear interpolation using the closest combinations of number of subjects and number of observations per subject included in our main analyses. The following table presents the sampling approaches used in the interpolation:\n")
   cat("\n")
   print(selected[,1:3], row.names=F)
-  cat("\n -----------------------\nLinear aproximation of Power under the sampling approach specified (",
-      individuals, "individuals and", samples, "observations per individual):\n")
+  cat("\n -----------------------\nLinear aproximation of Power under the sampling approach specified (",individuals, "individuals and", samples, "observations per individual):\n")
+  cat("\n")
   cat("Aprox. Power=", aprox.Power*100, "%")
+  cat("\n -----------------------\nHow to report:\n")
+  cat("\n")
+  cat("Power analysis for affect dynamic studies (Pirla et al., 2021) suggests that our sampling strategy achieved a statistical power of", aprox.Power*100, "% to detect a Pearson correlation of size r =",r,"using a two-tailed t-test with an alpha of",p.value,".")
+  cat("\n -----------------------\nReference:\n")
+  cat("\n")
+  cat("Pirla, S., Taquet, M., & Quoidbach, J. (2021). Measuring Affect Dynamics: An Empirical Framework. https://doi.org/10.31219/osf.io/x2ywa")
+
 
   #Invisible output
   inv<-list(selected,aprox.Power)

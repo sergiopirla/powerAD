@@ -1,11 +1,11 @@
 # powerAD: Power analysis for affect dynamics studies.
 ***
 
-This R-package is designed to run power analises for affect dynamics studies. That is, studies analyzing the relationship between trait, variability, instability or affect inertia with other variables. `powerAD` is based on the empirical power estimations presented in Pirla, Taquet and Quoidbach (2021). 
+`powerAD` is designed to help researchers construct well-powered and efficient experience-sampling studies. More specifically, the functions and data collected in this package allow researcher to conduct power analyses for hypotheses regarding dynamic (variability, instability, inertia) or static (average) measures of affect. `powerAD` is based on the empirical power estimations presented in Pirla, Taquet and Quoidbach (2021).
 
 ***
 
-You can read the full paper [here.](https://www.google.com)
+You can read the full paper [here.](https://osf.io/x2ywa)
 
 
 You can learn how to install `powerAD` and how to estimate power and required sample size (both participants and affect reports per participant) [in here.](https://sergiopirla.github.io/powerAD/articles/powerAD.html)

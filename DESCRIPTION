@@ -1,17 +1,24 @@
 Package: powerAD
 Type: Package
 Title: Power Analysis for Affect Dynamics Time Series.
-Version: 0.1.0
+Version: 0.1.1
 Author: Sergio Pirla, Maxime Taquet, Jordi Quoidbach
 Maintainer: Sergio Pirla <sergio.pirla@upf.edu>
 Description: This package contains functions and raw data to run ex-ante and ex-post power calculattions of affect dynamics time series as in Pirla, Taquet and Quidbach (2021).
 References: Pirla, Taquet and Quoidbach (2021). ADD REF
-Imports: ggplot2
+Imports: 
+    ggplot2,
+    stats,
+    relativeVariability,
+    dplyr,
+    faux
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
