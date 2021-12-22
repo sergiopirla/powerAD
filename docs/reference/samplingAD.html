@@ -70,16 +70,34 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">samplingAD</span><span class="op">(</span>power<span class="op">=</span><span class="fl">0.8</span>, metric<span class="op">=</span><span class="st">"SD"</span>, r<span class="op">=</span><span class="fl">0.1</span>, p.value<span class="op">=</span><span class="fl">0.01</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feasible combinations of individuals and samples per individual to obtain a power of 80 %  to detect an effect of size r= 0.1 using an alpha of 0.01 when interested in the Standard Deviation (SD) in affect. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of individuals and affect reports per individual (samples) needed to achieve a power of 80 % or more to detect a Pearson correlation of size r = 0.1 between the Standard Deviation (SD) in affect. and a given variable using a two-tailed t-test and an alpha of 0.01 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feasible sampling combinations:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Power Individuals Samples</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.9964        5120       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.9584        2560      10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8000        1280      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Power Individuals Samples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        2820       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        2000      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1790      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1570      20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1280      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1260      35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1240      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.8        1220      45</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -----------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Power is estimated through a linear interpolation using the sample combinations included in our main analyses.We refrain from making power extrapolations and therefore, only consider sampling approaches that range between 10 and 5120 participants and from 5 to 50 affect reports per participant (samples). The following table presents the minimal sampling combinations included in our main analyses that yielded the specified power: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Power Individuals Samples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1.00        5120       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.96        2560      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.80        1280      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> How to report:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Power analysis for affect dynamic studies (Pirla et al., 2021) suggests that our sampling strategy achieved a statistical power of 80 % to detect a Pearson correlation of size r = 0.1 using a two-tailed t-test with an alpha of 0.01 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reference:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pirla, S., Taquet, M., &amp; Quoidbach, J. (2021). Measuring Affect Dynamics: An Empirical Framework. https://doi.org/10.31219/osf.io/x2ywa</span>
 </code></pre></div>
     </div>
   </div>

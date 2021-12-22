@@ -1,5 +1,5 @@
 ---
-title: "powerAD: Power Analysis for Affect Dynamics Studies"
+title: "powerAD: Power analysis for static and dynamic measures of affect."
 output: rmarkdown::html_vignette
 fig_width: 10 
 fig_height: 6 
@@ -9,21 +9,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette presents the main functions included in the `powerAD` package. Based on the empirical power estimations and results described in Pirla, Taquet and Quoidbach (2021), `powerAD` provides a set of user-ready tools for those interested in running studies in the field of affect dynamics. 
+In this vignette, we present a short introduction on how to conduct power analyses for affect time series. Based on the empirical power estimations and results described in Pirla et al. (2021), `powerAD` provides a set of user-ready tools for those interested in running studies in the field of affect dynamics.
 
-The vignette follows this structure: 
+Vignette Sections:
 
 1. Installing and loading `powerAD`
-2. Estimating the minimal sufficient sample (both number of individuals and number of observations per individual).
-3. Estimating statistical power for a given sampling approach.
-4. Analyzing feasible effect sizes for an affect dynamics study.
-5. Generalizing results 
+2. Estimating required sample (number of individuals and affect reports per individual). 
+3. Estimating statistical power.
+4. Feasible effect sizes.
+5. Generalized power estimations.
 
 ***
 
 ## 1 - Installing and loading `powerAD`
 
-As this package is mantained in a Github repository, you will need to use the function `install_github()` from the `devtools` package. To install and load `powerAD`, introduce the following commands in your console:
+`powerAD` is maintained as a Github repository. You will need to use the function `install_github()` from the `devtools` package to download the package. 
+
+To install and load `powerAD`, introduce the following commands in your console:
 
 ```{r, eval=FALSE}
 install.packages("devtools")
@@ -34,43 +36,38 @@ library(powerAD)
 ***
 
 
-## 2 - Required sample in affect dynamics studies
+## 2 - Estimating required sample (number of individuals and affect reports per individual).
 
-The main functions of `powerAD` are designed to guide practitioners and researchers in conducting well-powered affect dynamics studies. The main function to this end is `samplingAD()`. This function takes the following imputs: 
+The main functions of `powerAD` are designed to guide practitioners and researchers in conducting well-powered studies of affect dynamics. Our functions estimate power or sample size to detect a Pearson correlation of a given size r, using a two-tailed t-test and a given alpha level. 
+
+To identify a set of sampling approaches that yield a minimum statistical power, we use `samplingAD()`. This function takes the following inputs: 
+
 
 * **power:** Minimum required power. Input as a number from 0.01 to 0.99. Defaults to 0.8 (80\% power).
 * **metric:** Affect dynamic measure of interest. Must be a single character from "Average", "Rel.SD", "SD", "RMSSD", "TKEO", "PAC" or "Autocorrelation".
 * **r:** Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.
 * **p.value:** Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
 
-Given these imputs, `samplingAD()` estimates the set of feasible combinations of number of individuals and affect reports per individuals needed to detect a relationship of size "r" in a given affect metric, with a specific power and alpha level. 
+Given these inputs, `samplingAD()` provides the user with a set of sampling approaches that yield sufficient statistical power. 
 
-For example, if interested in obtaining the set of feasible sampling approaches to conduct an study with 80% power, an expected effect size of r=0.3, setting an alpha of 0.05 and interested in the Teager-Kaiser Energy Operator, we would run the following code: 
+For instance, let’s assume that a user is interested in running an experience sampling study. Let’s further assume that the user is interested in detecting a Pearson correlation of expected size r=0.3 between the standard deviation in affect and an exogenous variable. To define statistical significance, the user will use an alpha level of 0.05. The user wants to have a priory probability of 80% to find the correlation of interest.
+
 
 ```{r, eval=T}
 library(powerAD)
-samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
+samplingAD(power=0.8, metric = "SD", r=0.3, p.value = 0.05)
 ```
 
-Furthermore, you might be interested in visually represnting this set of feasible sampling approaches. You can use the function `plot_samplingAD()` to do so. Note this function has the same arguments as `samplingAD()`:
-```{r, echo=FALSE}
-knitr::opts_chunk$set(fig.width=7, fig.height=5)
-library(ggplot2)
-```
 
-```{r echo=TRUE, paged.print=FALSE, dev='jpeg'}
-
-plot_samplingAD(power=0.8, metric = "TKEO", r=0.3, p.value = 0.05)
-
-```
+The output presents 1) the sampling approaches needed to achieve sufficient power given the study characteristics, 2) the points in our empirical strategy used to estimate these sampling approaches, 3) a section on how to report the sample size calculations, and 4) a reference to Pirla et al. (2021).
 
 
 ***
 
 
-## 3 - Statistical power for a given sampling approach.
+## 3 - Statistical power.
 
-Now that you have an idea of the feasible sampling combinations that you can use for your study, you might be interested in obtaining a statistical power estimation for a specific sampling approach. Furthermore, you might want to explore the power of different sampling approaches depending on the relative costs associated with recruiting more people or sampling those individuals for a longer period of time. In order to do so, you can use the function `powerAD()`. This function takes the following arguments: 
+Conversely, a user might be interested in calculating statistical power for a given sampling approach. The function `powerAD()` is designed to do so. `powerAD()` takes the following arguments: 
 
 * **individuals:** Number of individuals sampled.
 * **samples:** Number of affect reports per individual.
@@ -78,13 +75,14 @@ Now that you have an idea of the feasible sampling combinations that you can use
 * **r:** Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.
 * **p.value:** Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
 
-In the sampling estimations of part 2, we have seen that sampling 640 individuals 10 times, yielded sufficient power given our alpha level,  effect size, and metric of interest. However, such sampling approach might be too conservative as the estimated power for this sampling combination is 97% (intead of our 80% minimum required power). Using `powerAD()` we can try with different sampling specifications:
+Let’s assume that a user is interested in calculating statistical power for a study analyzing a Pearson's correlation of expected size r=0.2 between the relative standard deviation in affect and an exogenous variable (using a two-tailed t-test). Let’s further assume that the sampling and subject pool is fixed at 200 individuals and 22 affect reports per individual. The user can estimate power using the following command:
 
 ```{r}
-powerAD(individuals=400, samples = 11, metric = "TKEO", r=0.3, p.value = 0.05)
+powerAD(individuals=200, samples = 22, metric = "Rel.SD", r=0.2, p.value = 0.05)
 ```
 
-As you can see above, the function outputs the points in the power estimations of Pirla, Taquet and Quoidbach (2021) that are closer to the function's imputs. In addittion, the function uses these close points to provide a linear aproximation to the power of our sampling approach of interest. The results show that given our study setup (alpha level, effect siz of interest and metric of interest), sampling 400 individuals a total of 11 times would suffice to obtain a power of 80%. 
+
+In this setting, statistical power approximates 70%.
 
 
 ***
@@ -92,7 +90,7 @@ As you can see above, the function outputs the points in the power estimations o
 
 ## 4 - Feasible effect sizes:
 
-So far, we have been concerned with power and sampling approaches, taking the other imputs as fixed. While most researchers will rely on previous literature to define an expected effect size, we provide a companion table with some effect sizes to be used as reference. To access such data on effect sizes, you just have to type `effect.sizes` in your R console. If you want to see the benchmark effect sizes for a specific affect dynamic measure (e.g. TKEO), you can enter the following command: 
+So far, we have been concerned with power and sampling approaches, taking the other inputs as given. While most researchers will rely on previous literature to define an expected effect size, we provide a companion table with effect sizes to be used as reference. To access this data, type `effect.sizes` in your R console. If you want to see the benchmark effect sizes for a specific affect dynamic measure (e.g. TKEO), you can enter the following command: 
 
 ```{r}
 effect.sizes[, c("Outcome", "TKEO")]
@@ -101,13 +99,60 @@ effect.sizes[, c("Outcome", "TKEO")]
 This table presents the effect size (Pearson's r) between the affect TKEO and demographic variables (rows 1 and 2), static and dynamic measures of meaning in life (3-9), static and dynamic measures of life satisfaction (10-16) and proportion of time spent with different groups of people or engaging in some activities (17-22).
 
 
-
 ***
 
+## 5. Generalized power estimations: 
+
+The main functions in `powerAD` rely on the methods and data presented in Pirla et al. (2021). More specifically, the main functions in this package assume that momentary affect is measured as a continuous scale (from 0 to 100). Yet, `powerAD` includes a function to estimate power when using a different affect elicitation scale - `powerADgen()`.
+
+This function uses pre-exiting affective data to conduct power simulations. To run these simulations, you will need a dataset containing a relatively large number of participants and affect reports per participant. Given this data and the study characteristics, `powerADgen()` calculates statistical power using a simulation and resampling technique. 
+
+`powerADgen()` takes the following arguments: 
+
+* **individuals:** Number of individuals sampled.
+* **samples:** Number of affect reports per individual.
+* **metric:** Affect dynamic measure of interest. Must be a single character from "Average", "Rel.SD", "SD", "RMSSD", "TKEO", "PAC" or "Autocorrelation".
+* **r:** Number from 0.01 to 0.99 indicating the expected effect size (Pearson correlation) of interest.
+* **p.value:** Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
+* **min:** Lower bound of affect scale. Minimum value that the affect variable can take.
+* **max:** Upper bound of affect scale. Maximum value that the affect variable can take.
+* **data:** Data frame containing affect data and used to estimate power. 
+* **id:** Name of the variable in data used to identify participants.
+* **affect:** Name of the variable in data used to identify affect reports.
+* **time:** Name of the variable in data used to identify observation numbers. 
+* **perm:** Number of simulations used to compute power. We recommend at least 1000 simulations.
 
 
+Before proceeding with an example, a number of comments regarding these arguments is in order. First, the data used in the simulation must have a variable identifying the participant, the affect report, and the relative time of such affect report (whether that is the first, second, third… affect report collected from that specific individual). Second, power can only be estimated for sampling combinations strictly contained in the dataset used for power simulations. For example, if our dataset includes 25 affect reports from 200 individuals, we cannot estimate power when sampling 300 individuals or 30 affect reports. Third although the “perm” argument defaults to 100 simulations, we recommend setting this parameter to a minimum of 1000 simulations.
+
+Let data.ESM be a dataset containing 50 affect reports from 200 different individuals.This data is not contained in our package, but represents a dataset available to the researcher from previous work. The affect reports in data.ESM are measured on a 1 to 4 scale. Let’s assume that we are interested in calculating the statistical power to detect a correlation of size r=0.1 between the Probability of Acute Change (PAC) in affect and a given variable. Let’s further assume that we plan on recruiting 100 individuals and sample them 25 times. 
+
+First, check the structure of data.ESM:
+
+```{r echo=FALSE}
+Participant<-rep(1:200, each=50)
+Report.Number<-rep(1:50, 200)
+Affect.Report<-round(runif(10000, min=1, max=4))
+data.ESM<-data.frame(Participant, Affect.Report, Report.Number)
+```
+
+```{r}
+head(data.ESM)
+```
+
+Given the names of the variables in data.ESM, we use the following code to compute power: 
+
+```{r}
+powerADgen(individuals = 100, samples = 25, metric = "PAC", r=0.1, p.value = 0.05,
+           min = 1, max = 4, data = data.ESM, id="Participant",
+           affect="Affect.Report", time = "Report.Number", perm = 1000)
+```
+
+In this setting, the study would be seriously underpowered.  
 
 
+***
+***
 
 
 
