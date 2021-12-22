@@ -17,6 +17,7 @@ The vignette follows this structure:
 2. Estimating the minimal sufficient sample (both number of individuals and number of observations per individual).
 3. Estimating statistical power for a given sampling approach.
 4. Analyzing feasible effect sizes for an affect dynamics study.
+5. Generalizing results 
 
 ***
 
