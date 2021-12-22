@@ -148,7 +148,7 @@ powerADgen(individuals = 100, samples = 25, metric = "PAC", r=0.1, p.value = 0.0
            affect="Affect.Report", time = "Report.Number", perm = 1000)
 ```
 
-In this setting, the study would be seriously underpowered.  
+In this setting, the study would be seriously underpowered. Note that for a large number of simulations, number of individuals, and samples per individual, the simulations can become computationally costly - causing large computation times. 
 
 
 ***

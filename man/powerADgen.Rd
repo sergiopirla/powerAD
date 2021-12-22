@@ -41,7 +41,7 @@ powerADgen(
 \item{affect}{Name of variable containing affect observations.}
 }
 \description{
-Estimates the statistical power of an affect dynamics time series study for a given sampling, effect size, alpha level and metric of interest. Based on Pirla, Taquet and Quoidbach (2021).
+Estimates the statistical power of an affect dynamics time series study for a given sampling, effect size, alpha level and metric of interest.
 }
 \examples{
 powerADgen(individuals=500, samples=10, metric="SD", r=0.1, p.value=0.01)

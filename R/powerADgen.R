@@ -1,7 +1,7 @@
 
 #' powerADgen
 #'
-#' Estimates the statistical power of an affect dynamics time series study for a given sampling, effect size, alpha level and metric of interest. Based on Pirla, Taquet and Quoidbach (2021).
+#' Estimates the statistical power of an affect dynamics time series study for a given sampling, effect size, alpha level and metric of interest.
 #' @param individuals Number of individuals sampled.
 #' @param samples Number of affect observations per individual.
 #' @param metric Metric of interest. Must be a single character from "Average", "Rel.SD", "SD", "RMSSD", "TKEO", "PAC" or "Autocorrelation".
@@ -33,6 +33,8 @@ powerADgen<-function(individuals, samples, metric, r, p.value=0.05, min, max, da
   names(data)[which(names(data)==id)]<-"id"
   names(data)[which(names(data)==time)]<-"time"
   names(data)[which(names(data)==affect)]<-"Happiness"
+  data<-data[,c("id", "time", "Happiness")]
+  data<-na.omit(data)
   data<-dplyr::group_by(data, id)
   data<-dplyr::mutate(data, n=dplyr::n())
   data<-data[data$n>samples,]
