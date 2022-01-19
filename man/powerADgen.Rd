@@ -34,17 +34,18 @@ powerADgen(
 
 \item{max}{Affect scale upper bound.}
 
-\item{data}{Data frame containing affect observations used perfrom power analysis.}
+\item{data}{Data frame containing affect observations used perform power analysis.}
 
 \item{id}{Name of variable containing id observations.}
 
 \item{affect}{Name of variable containing affect observations.}
+
+\item{time}{Name of variable containing observation order/time stamp of affect reports.}
+
+\item{perm}{Number of simulations employed in power analysis. For robust power calculations, we recommend using a minimum of 1000 simulations.}
 }
 \description{
 Estimates the statistical power of an affect dynamics time series study for a given sampling, effect size, alpha level and metric of interest.
-}
-\examples{
-powerADgen(individuals=500, samples=10, metric="SD", r=0.1, p.value=0.01)
 }
 \references{
 Pirla, Taquet and Quoidbach (2021). ADD REFERENCE

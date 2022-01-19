@@ -9,16 +9,16 @@
 #' @param p.value Alpha level. Must be one of the following numbers: 0.01, 0.05, 0.001, 0.005, 0.001. Defaults to 0.05.
 #' @param min Affect scale lower bound.
 #' @param max Affect scale upper bound.
-#' @param data Data frame containing affect observations used perfrom power analysis.
+#' @param data Data frame containing affect observations used perform power analysis.
 #' @param id Name of variable containing id observations.
 #' @param affect Name of variable containing affect observations.
+#' @param time Name of variable containing observation order/time stamp of affect reports.
+#' @param perm Number of simulations employed in power analysis. For robust power calculations, we recommend using a minimum of 1000 simulations.
 #' @keywords Affect Dynamics, Power Analysis
 #' @export
-#' @examples
-#' powerADgen(individuals=500, samples=10, metric="SD", r=0.1, p.value=0.01)
 #' @references Pirla, Taquet and Quoidbach (2021). ADD REFERENCE
 
-powerADgen<-function(individuals, samples, metric, r, p.value=0.05, min, max, data,id,affect, time, perm=100 ){
+powerADgen<-function(individuals, samples, metric, r, p.value=0.05, min, max, data,id,affect, time, perm=100){
 
   #Error Messages
   if(missing(individuals) | individuals<0 | length(individuals)>1 | is.numeric(individuals)==F){stop("Please enter a valid sample size (number of individuals)")}
@@ -30,6 +30,7 @@ powerADgen<-function(individuals, samples, metric, r, p.value=0.05, min, max, da
   if(metric=="Rel.SD" & (missing(min) | missing(max))){stop("Please enter the affect scale boundaries.")}
   if(r<0.01 |r>0.99|is.numeric(r)==F){stop("Please, provide a valid effect size (r) between 0.01 and 0.99.")}
   if(sum(p.value==c(0.1,0.05,0.01,0.005,0.001))==0){stop("Please, provide a valid alpha level (p.value). Valid alpha levels are 0.1, 0.05, 0.01, 0.005, 0.001.")}
+  if(missing(perm) | perm<1 | length(perm)>1 | is.numeric(perm)==F){stop("Please enter a valid number of power simulations (perm).")}
   names(data)[which(names(data)==id)]<-"id"
   names(data)[which(names(data)==time)]<-"time"
   names(data)[which(names(data)==affect)]<-"Happiness"
